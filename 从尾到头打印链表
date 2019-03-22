@@ -10,7 +10,7 @@ class Solution:
     # write code here 
 
 #解法
-#栈处理
+####栈处理
 # -*- coding:utf-8 -*-
 # class ListNode:
 #     def __init__(self, x):
@@ -18,5 +18,59 @@ class Solution:
 #         self.next = None
 class Solution: 
 # 返回从尾部到头部的列表值序列，例如[1,2,3] 
-    def printListFromTailToHead(self, listNode): 
-    
+    def printListFromTailToHead(self, listnode): 
+    lst,lst_bac=[],[]
+        if not listnode:
+            return lst
+        while listnode:
+            lst.append(listnode.val)
+            listnode = listnode.next
+        while lst:
+            lst_bac.append(lst.pop())
+        return lst_bac
+####递归
+# -*- coding:utf-8 -*-
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+class Solution: 
+# 返回从尾部到头部的列表值序列，例如[1,2,3] 
+    def printListFromTailToHead(self, listnode): 
+    if not listnode:
+            return []
+    return self.printListFromTailToHead(listnode.next)+[listnode.val]
+####利用list的reverse()
+# -*- coding:utf-8 -*-
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+class Solution: 
+# 返回从尾部到头部的列表值序列，例如[1,2,3] 
+    def printListFromTailToHead(self, listnode):  
+    lst=[]
+    if not listnode:
+        return []
+    while listnode:
+        lst.append(listnode.val)
+        listnode=listnode.next
+    lst.reverse()
+    return lst
+####利用list的切片处理[::-1]
+# -*- coding:utf-8 -*-
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+class Solution:
+    # 返回从尾部到头部的列表值序列，例如[1,2,3]
+    def printListFromTailToHead(self, listnode):
+        # write code here
+        lst=[]
+        if not listnode:
+            return []
+        while listnode:
+            lst.append(listnode.val)
+            listnode=listnode.next
+        return lst[::-1]

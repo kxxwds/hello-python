@@ -9,3 +9,22 @@ class Solution:
         for i in range(n):
             a,b = b,a+b
         return a 
+####跳台阶
+####一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）
+####思路：现在只有两中跳法，一个是一阶，二是二阶，假定第一次是一阶，那剩下的跳法则是f(n-1),假定第一次跳的是二阶，那剩下的跳法则是f(n-2),
+####可以发现最终得出的是一个斐波那契数列：
+
+        
+
+           | 1, (n=1)
+
+f(n) =     | 2, (n=2)
+
+           | f(n-1)+f(n-2) ,(n>2,n为整数)
+class Solution:
+    def jumpFloor(self, number):
+        # write code here
+        a,b = 0,1
+        for i in range(number):
+            a,b = b,a+b
+        return b 

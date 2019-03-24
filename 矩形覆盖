@@ -1,0 +1,19 @@
+####我们可以用2*1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2*1的小矩形无重叠地覆盖一个2*n的大矩形，总共有多少种方法？
+####依然是裴波那挈数列
+    f(1)=1
+    f(2)=2
+    f(3)=3=f(1)+f(2)
+    f(4)=5=f(2)+f(3)###f(2)假定第一个是横着放的那下面那一行就是固定的则剩下右边2*2；f(3)假定第一个是竖着放的则右面还剩着3*3
+    ....
+    f(n)=f(n-1)+f(n-2)
+解法：
+class Solution:
+    def rectCover(self, number):
+        # write code here
+        if number == 0:
+            return 0
+        else :
+            a,b = 0,1
+            for i in range(number):
+                a,b = b,a+b
+            return b

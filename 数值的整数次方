@@ -1,0 +1,62 @@
+####给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方
+###解法：简单的方法
+class Solution:
+    def Power(self, base, exponent):
+        # write code here
+        if base == 0:
+            return 0
+        base1 = 1
+        if exponent == 0:
+            return 1
+        elif exponent > 0:
+            while exponent:
+                base1 = base1 *base
+                exponent -= 1
+            return base1
+        else:
+            exponent = -exponent
+            while exponent:
+                base1 = base1 *base
+                exponent -= 1
+            return 1/base1
+ ####快速求幂法
+ 3 ^ 999
+= 3 ^ (512 + 256 + 128 + 64 + 32 + 4 + 2 + 1)
+= (3 ^ 512) * (3 ^ 256) * (3 ^ 128) * (3 ^ 64) * (3 ^ 32) * (3 ^ 4) * (3 ^ 2) * 3
+
+这样只要做16次乘法，把999转为2进制数：1111100111，其各位就是要乘的数。
+#####
+class Solution:
+    def Power(self, base, exponent):
+        # write code here
+        if base == 0:
+            return 0
+        if exponent == 0:
+            return 1
+        e = abs(exponent)
+        tmp = base
+        res = 1
+        while e :
+            #如果最后一位为1，那么给res乘上这一位的结果
+            if (e & 1 == 1):
+                res =res * tmp
+            e = e >> 1  ##右移相当于除以2，左移相当于末尾部零
+            tmp = tmp * tmp
+        return res if exponent > 0 else 1/res
+ ###左移与右移的二进制位的
+e=999
+print(bin(999))
+e = e<<1
+print(bin(e))
+输出结果：
+0b1111100111
+0b11111001110
+
+e=999
+print(bin(999))
+e = e>>1
+print(bin(e))
+输出结果：
+0b1111100111
+0b111110011
+  

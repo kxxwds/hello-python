@@ -1,0 +1,56 @@
+#####输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。
+#利用sort排序
+# -*- coding:utf-8 -*-
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+class Solution:
+    # 返回合并后列表
+    def Merge(self, pHead1, pHead2):
+        # write code here
+        res = []
+        while pHead1:
+            res.append(pHead1.val)
+            pHead1 = pHead1.next  ##指针的移动
+        while pHead2:
+            res.append(pHead2.val)
+            pHead2 = pHead2.next
+        res.sort()
+        dummy = ListNode(0)  ###头结点
+        pre = dummy
+        for i in res: ##其中的i是res列表中的值
+            node = ListNode(i)  ###class ListNode:这个函数的应用
+            pre.next = node
+            pre = pre.next
+        return dummy.next
+###比较大小指针移动
+比较两个链表的首结点，哪个小的的结点则合并到第三个链表尾结点，并向前移动一个结点。
+步骤一结果会有一个链表先遍历结束，或者没有
+第三个链表尾结点指向剩余未遍历结束的链表
+返回第三个链表首结点
+# -*- coding:utf-8 -*-
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+class Solution:
+    # 返回合并后列表
+    def Merge(self, pHead1, pHead2):
+        # write code here
+        dummy = ListNode(0)
+        pre = dummy
+        while pHead1 and pHead2:
+            if pHead1.val >= pHead2.val:
+                dummy.next = pHead2
+                pHead2 = pHead2.next
+            else:
+                dummy.next = pHead1
+                pHead1 = pHead1.next
+            dummy = dummy.next
+        ##第三个链表尾结点指向剩余未遍历结束的链表
+        if pHead1:      #若pHead1不等于零，则执行下一步，
+            dummy.next = pHead1
+        elif pHead2:
+            dummy.next = pHead2
+        return pre.next  ###往往返回那个没有动的结点指针

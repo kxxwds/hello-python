@@ -1,0 +1,24 @@
+###输入一个链表，反转链表后，输出新链表的表头。
+# -*- coding:utf-8 -*-
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+class Solution:
+    # 返回ListNode
+    def ReverseList(self, pHead):
+        # write code here
+        if not pHead or not pHead.next:
+            return pHead
+        last =None
+        while pHead:
+            tmp = pHead.next#将下一步的地址指向给tmp
+            pHead.next=last#将一个新的链表指向给旧链表pHead，这个时候就把pHead截断了，只剩下前面的链表值
+            last=pHead#将旧链表的地址指向给新链表
+            pHead=tmp#将旧链表原来的下一步只指向给pHead
+        return last
+    ###第一步为tmp暂存旧链表的开头地址
+    ###截断旧链表
+    ###将截取的旧链表的头部放入新链表，pHead.next将指向新链表的开头
+    ###将旧链表tmp指向交给pHead
+    

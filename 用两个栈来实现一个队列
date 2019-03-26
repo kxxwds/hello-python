@@ -1,6 +1,6 @@
 ####用两个栈来实现一个队列，完成队列的Push和Pop操作。 队列中的元素为int类型。
 class Solution:
-    def __init__(self):
+    def __init__(self):       ####在栈上"push"元素是个常用术语,意思是把一个对象添加到堆栈中
         self.stackA = []
         self.stackB = []
          
@@ -11,8 +11,8 @@ class Solution:
     def pop(self):
         # return xx
         if self.stackB:
-            return self.stackB.pop()
-        elif not self.stackA:
+            return self.stackB.pop()    ####pop() 函数用于移除列表中的一个元素（默认最后一个元素），并且返回该元素的值。
+        elif not self.stackA:  ######若self.stackA为0，则执行下一条，不为零则执行else
             return None
         else:
             while self.stackA:

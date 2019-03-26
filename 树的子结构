@@ -32,3 +32,13 @@ class Solution:
         if pRoot1.val != pRoot2.val:
             return False
         return self.DoesTree1haveTree2(pRoot1.left, pRoot2.left) and self.DoesTree1haveTree2(pRoot1.right, pRoot2.right)
+###解法
+class Solution:
+    def HasSubtree(self, pRoot1, pRoot2):
+         
+        def convert(p):
+            if p:
+                return str(p.val) +  convert(p.left) + convert(p.right)
+            else:
+                return ""
+        return convert(pRoot2) in convert(pRoot1) if pRoot2 else False

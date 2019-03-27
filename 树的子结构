@@ -9,36 +9,59 @@
 先序遍历：（1）访问根节点；（2）采用先序递归遍历左子树；（3）采用先序递归遍历右子树；
 中序遍历：（1）采用中序遍历左子树；（2）访问根节点；（3）采用中序遍历右子树
 后序遍历：（1）采用后序递归遍历左子树；（2）采用后序递归遍历右子树；（3）访问根节点；
+class TreeNode:
+     def __init__(self, x):
+         self.val = x
+         self.left = None
+         self.right = None
 class Solution:
     def HasSubtree(self, pRoot1, pRoot2):
         # write code here
         result = False
-        if pRoot1 != None and pRoot2 != None:
-            if pRoot1.val == pRoot2.val:
+        if pRoot1 != None and pRoot2 != None: //当Tree1和Tree2都不为零的时候，才进行比较。否则直接返回false
+            if pRoot1.val == pRoot2.val:      //如果找到了对应Tree2的根节点的点，以这个根节点为为起点判断是否包含Tree2
                 result = self.DoesTree1haveTree2(pRoot1, pRoot2)
-            if not result:
+            if not result:   ##若result为false 则执行下一步，//如果找不到，那么就再去root的左儿子当作起点，去判断时候包含Tree2
                 result = self.HasSubtree(pRoot1.left, pRoot2)
-            if not result:
+            if not result:                                     //如果还找不到，那么就再去root的右儿子当作起点，去判断时候包含Tree2
                 result = self.HasSubtree(pRoot1.right, pRoot2)
         return result
     # 用于递归判断树的每个节点是否相同
     # 需要注意的地方是: 前两个if语句不可以颠倒顺序
     # 如果颠倒顺序, 会先判断pRoot1是否为None, 其实这个时候pRoot2的结点已经遍历完成确定相等了, 但是返回了False, 判断错误
     def DoesTree1haveTree2(self, pRoot1, pRoot2):
-        if pRoot2 == None:
-            return True
-        if pRoot1 == None:
+        if pRoot2 == None:   //如果Tree2已经遍历完了都能对应的上，返回true
+            return True      //return执行后就会退出该函数
+        if pRoot1 == None:   //如果Tree2还没有遍历完，Tree1却遍历完了。返回false
             return False
-        if pRoot1.val != pRoot2.val:
-            return False
+        if pRoot1.val != pRoot2.val: //如果其中有一个点没有对应上，返回false
+            return False            //如果根节点对应的上，那么就分别去子节点里面匹配
         return self.DoesTree1haveTree2(pRoot1.left, pRoot2.left) and self.DoesTree1haveTree2(pRoot1.right, pRoot2.right)
-###解法
+###解法 这是一个有点问题的代码
 class Solution:
     def HasSubtree(self, pRoot1, pRoot2):
          
         def convert(p):
             if p:
-                return str(p.val) +  convert(p.left) + convert(p.right)
+                return str(p.val) +  convert(p.left) + convert(p.right)  #相当于前序遍历，然后看A中是否有一段符合B
             else:
                 return ""
-        return convert(pRoot2) in convert(pRoot1) if pRoot2 else False
+        return convert(pRoot2) in convert(pRoot1) if pRoot2 else False ###in相对于字典，看一个字符串是否在另一个字符串内 if pRoot2不为空则执行convert(pRoot2) in convert(pRoot1)
+
+####输入一个二叉树的方法
+# {8,8,7,9,3,#,#,#,#,4,7},{8,9,2}
+ 
+ 
+pRoot1 = TreeNode(8)
+pRoot1.left = TreeNode(8)
+pRoot1.left.left = TreeNode(7)
+pRoot1.left.left.left = TreeNode(9)
+pRoot1.left.left.left.left = TreeNode(3)
+pRoot1.right = TreeNode(4)
+pRoot1.right.left = TreeNode(7)
+ 
+pRoot2 = TreeNode(8)
+pRoot2.left = TreeNode(9)
+pRoot2.left.left = TreeNode(2)
+ 
+print(HasSubtree(pRoot1, pRoot2))

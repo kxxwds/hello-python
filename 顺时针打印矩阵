@@ -1,0 +1,50 @@
+####元组
+tup1 = ('Google', 'Runoob', 1997, 2000)
+tup2 = (1, 2, 3, 4, 5, 6, 7 )
+ 
+print ("tup1[0]: ", tup1[0])
+print ("tup2[1:5]: ", tup2[1:5])
+输出
+tup1[0]:  Google
+tup2[1:5]:  (2, 3, 4, 5)
+####多维数组
+from numpy import *
+arr5=array([[1,2,3,4],[5,6,7,8],[9,10,11,12]])
+print(arr5)
+print(arr5[1,0])
+print(arr5[1][0])
+输出
+[[ 1  2  3  4]
+ [ 5  6  7  8]
+ [ 9 10 11 12]]
+5
+5
+####列表
+list1 = ['physics', 'chemistry', 1997, 2000]
+#####输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，
+#####例如，如果输入如下4 X 4矩阵： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.
+#####思路：先取矩阵的第一行，接着将剩下作为新矩阵进行一个逆时针90度的翻转，接着获取第一行，直到矩阵为空。
+#####需要注意的点pop() 越界，翻转矩阵的时候相当于将列数据变成行数据，可以一列一列获取最后注意顺序。
+解法：
+class Solution:
+    # matrix类型为二维列表，需要返回列表
+    def printMatrix(self, matrix):
+        # write code here
+        result = []
+        while(matrix):                #直到为空
+            result += matrix.pop(0)   #先取第一行
+            if not matrix:            #保证pop不越界
+                break
+            matrix = self.turn(matrix) #再将新矩阵旋转90度，然后再返回取新矩阵的第一行
+        return result
+    def turn(self, matrix):            #定义新矩阵旋转90度的函数
+        nrow = len(matrix)
+        ncol = len(matrix[0])
+        newmatrix=[]
+        for i in range(ncol):
+            sb = []
+            for j in range(nrow):      #将新矩阵的列变为行，再将新矩阵翻转
+                sb.append(matrix[j][i])#sb的作用是将每一列的输出以列表的形式返给newmatrix，若matrix[j，i]则说列表索引为整数不是元组
+            newmatrix.append(sb)       #这样newmatrix会以矩阵形式出现，若直接newmatrix.append则成字符串了
+        newmatrix.reverse()
+        return newmatrix

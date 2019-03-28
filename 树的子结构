@@ -30,7 +30,7 @@ class Solution:
     # 需要注意的地方是: 前两个if语句不可以颠倒顺序
     # 如果颠倒顺序, 会先判断pRoot1是否为None, 其实这个时候pRoot2的结点已经遍历完成确定相等了, 但是返回了False, 判断错误
     def DoesTree1haveTree2(self, pRoot1, pRoot2):
-        if pRoot2 == None:   //如果Tree2已经遍历完了都能对应的上，返回true
+        if pRoot2 == None:   //如果Tree2已经遍历完了都能对应的上，返回true,但是pRoot2完了同时pRoot1没完就不算是完整的子树？？？？？
             return True      //return执行后就会退出该函数
         if pRoot1 == None:   //如果Tree2还没有遍历完，Tree1却遍历完了。返回false
             return False

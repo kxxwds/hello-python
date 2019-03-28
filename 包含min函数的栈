@@ -1,0 +1,30 @@
+####定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。
+####设置一个辅助栈来保存最小值，每次在原始栈压入元素的时候同时更新辅助栈
+解法：
+class Solution:
+    def __init__(self):
+        self.stack = []
+        self.min_stack = []##定义两个空栈
+
+    def push(self, node):
+        # write code here
+        self.stack.append(node) #如果新压入的值比最小值小，则向辅助栈压入新值，否则压入最小值
+        if self.min_stack == [] or node < self.min():##其中的node是一个一个输入的，因此不用循环self.min()=self.min_stack[-1]
+            self.min_stack.append(node)###比较之后一定是小的入self.min_stack栈
+        else:
+            temp = self.min()
+            self.min_stack.append(temp)####如果还是self.min_stack[-1]最小就再存入self.min_stack栈，才会导致有相同的元素出现
+    def pop(self):
+        # 只要不为空就删除原始栈和辅助栈的元素
+        if self.min_stack == [] or self.stack == []:####只是定义了一个函数本题中根本没用到
+            return None
+        self.min_stack.pop()
+        self.stack.pop()
+    def top(self):#返回栈顶     ####只是定义了一个函数本题中根本没用到
+        # write code here
+        return self.stack[-1]
+    def min(self):
+        # 返回当前最小值
+        return self.min_stack[-1]
+    
+   

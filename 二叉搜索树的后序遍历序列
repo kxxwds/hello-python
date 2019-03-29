@@ -1,0 +1,45 @@
+####输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果
+####如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。
+####后序遍历为左，右，根
+例：2 1 5 4 /3 /8 7 11 10 /9/ 6
+   0 1 2 3  4  5 6  7  8  9  10   ---序列索引
+      6为根节点
+  3左节点    9右节点
+
+对于一棵二叉搜索树，如果不为空，它应该满足以下三个特点：
+
+1、树上的任一结点，该结点的值都大于它的非空左子树的值。
+
+2、树上的任一结点，该结点的值都小于它的非空右子树的值。
+
+3、任一结点的左右子树都是二叉搜索树。
+####思路：后序遍历 的序列中，最后一个数字是树的根节点 ，数组中前面的数字可以分为两部分：
+第一部分是左子树节点 的值，都比根节点的值小；
+第二部分 是右子树 节点的值，都比根节点的值大，
+后面用递归分别判断前后两部分 是否符合以上原则
+
+# -*- coding:utf-8 -*-
+class Solution:
+    def VerifySquenceOfBST(self, sequence):
+        # write code here
+        if sequence==None or len(sequence)==0:
+            return False
+        length=len(sequence)
+        root=sequence[length-1]
+        # 在二叉搜索 树中 左子树节点小于根节点  i就等于5就是右子树的开始
+        for i in range(length):
+            if sequence[i]>root:
+                break
+        # 二叉搜索树中右子树的节点都大于根节点
+        for j  in range(i,length):###i就是上面的5
+            if sequence[j]<root:
+                return False
+        # 判断左子树是否为二叉树
+        left=True
+        if  i>1:
+            left=self.VerifySquenceOfBST(sequence[0:i-1])  #这是左子树
+        # 判断 右子树是否为二叉树
+        right=True
+        if i<length-1:
+            right=self.VerifySquenceOfBST(sequence[i:-1]) #这是右子树
+        return left and right

@@ -1,0 +1,40 @@
+####叶结点：一棵树当中没有子结点（即度为0）的结点称为叶结点，简称“叶子”。 叶子是指度为0的结点，又称为终端结点。
+####思路：把每个路径都走一遍，kan'na'ge
+# -*- coding:utf-8 -*-
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+class Solution:
+    # 返回二维列表，内部每个列表表示找到的路径
+    def FindPath(self, root, expectNumber):
+        # write code here
+        if not root:
+            return []
+         
+        result = []
+         
+        def FindPathMain(root, path, currentSum):
+            currentSum += root.val
+             
+            path.append(root)
+            isLeaf = root.left == None and root.right == None
+             
+            if currentSum == expectNumber and isLeaf:
+                onePath = []
+                for node in path:
+                    onePath.append(node.val)
+                result.append(onePath)
+             
+            if currentSum < expectNumber:
+                if root.left:
+                    FindPathMain(root.left, path, currentSum)
+                if root.right:
+                    FindPathMain(root.right, path, currentSum)
+             
+            path.pop()
+         
+        FindPathMain(root, [], 0)
+         
+        return result

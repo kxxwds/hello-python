@@ -1,40 +1,76 @@
 ####叶结点：一棵树当中没有子结点（即度为0）的结点称为叶结点，简称“叶子”。 叶子是指度为0的结点，又称为终端结点。
-####思路：把每个路径都走一遍，kan'na'ge
+####输入一颗二叉树和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。
+####思路：定义两个数组pathArray、onePath，pathArray用于存储所有符合条件的路径，onePath用于存储当前遍历的路径； 
+– 类似于深度优先搜索，每遍历到一个节点，就将其加入到onePath中，并判定是否符合条件： 
+1. 为叶节点且和等于要求的整数，则将该数组存储至pathArray中，并换其他路径继续搜寻； 
+2. 和小于要求的整数，则向当前节点的左右子树依次深度优先搜索； 
+3. 和大于要求的整数，则直接换路搜索。
+
 # -*- coding:utf-8 -*-
 # class TreeNode:
 #     def __init__(self, x):
 #         self.val = x
 #         self.left = None
 #         self.right = None
+import copy
 class Solution:
-    # 返回二维列表，内部每个列表表示找到的路径
     def FindPath(self, root, expectNumber):
-        # write code here
-        if not root:
-            return []
-         
-        result = []
-         
-        def FindPathMain(root, path, currentSum):
-            currentSum += root.val
-             
-            path.append(root)
-            isLeaf = root.left == None and root.right == None
-             
-            if currentSum == expectNumber and isLeaf:
-                onePath = []
-                for node in path:
-                    onePath.append(node.val)
-                result.append(onePath)
-             
-            if currentSum < expectNumber:
-                if root.left:
-                    FindPathMain(root.left, path, currentSum)
-                if root.right:
-                    FindPathMain(root.right, path, currentSum)
-             
-            path.pop()
-         
-        FindPathMain(root, [], 0)
-         
-        return result
+        onePath = []
+        pathArray = []
+        self.Find(root, expectNumber, onePath, pathArray)
+        return pathArray
+
+    def Find(self, root, expectNumber, onePath, pathArray):
+        if root == None:
+            return pathArray
+
+        onePath.append(root.val)
+        if self.getSum(onePath) == expectNumber and not root.left and not root.right:
+            pathArray.append(copy.deepcopy(onePath))
+        elif self.getSum(onePath) < expectNumber:
+            if root.left != None:
+                self.Find(root.left, expectNumber, onePath, pathArray)
+                onePath.pop(-1)
+            if root.right != None:
+                self.Find(root.right, expectNumber, onePath, pathArray)
+                onePath.pop(-1)
+        elif self.getSum(onePath) > expectNumber:
+            onePath.pop(-1)
+
+    def getSum(self, array):
+        sum = 0
+        for i in array:
+            sum += i
+        return sum
+优化后的代码：
+class Solution:
+    def __init__(self):
+        self.onePath = []
+        self.PathArray = []
+    def FindPath(self, root, expectNumber):
+        if root is None:
+            return self.PathArray
+        self.onePath.append(root.val)
+        expectNumber -= root.val
+        if expectNumber==0 and not root.left and not root.right:
+            self.PathArray.append(self.onePath[:])
+        elif expectNumber>0:
+            self.FindPath(root.left,expectNumber)
+            self.FindPath(root.right,expectNumber)
+        self.onePath.pop()
+        return self.PathArray
+        10        输入为22
+      /    \
+    5        12
+  /  \
+ 4    7
+    root  expectNumber  onePath
+ 1  10      12          10
+ 2  5       7           10 5 ----进入self.FindPath(root.left,expectNumber)循环了
+ 3  4       3           10 5 4----又进入self.FindPath(root.left,expectNumber)循环了
+ 4  none    --          --(表示为执行，直接return [])----又进入self.FindPath(root.left,expectNumber)循环了
+ 5  none    --          --(表示为执行，直接return [])self.FindPath(root.right,expectNumber)
+ 6  5       7           10 5 ----出来self.FindPath(root.left,expectNumber)循环了
+ 7  10      12          10----出来self.FindPath(root.left,expectNumber)循环了
+ 8  12      0           10 12----出来self.FindPath(root.left,expectNumber)循环了
+ 

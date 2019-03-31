@@ -1,3 +1,69 @@
 ###输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。
 ###双向链表也叫双链表，是链表的一种，它的每个数据结点中都有两个指针，分别指向直接后继和直接前驱。
 ###所以，从双向链表中的任意一个结点开始，都可以很方便地访问它的前驱结点和后继结点
+# -*- coding:utf-8 -*-
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+class Solution:
+    def Convert(self, pRootOfTree):
+        # write code here
+        if not pRootOfTree:
+            return None
+        stack = []                        #暂存节点
+        restack = []                      #中序遍历的节点
+        p = pRootOfTree
+        while p or stack:
+            if p:
+                stack.append(p)           #先遍历左子树，遍历完了之后就开始倒退stack.pop
+                p = p.left
+            else:
+                node = stack.pop()        #倒退一个节点遍历右子树
+                restack.append(node)
+                p = node.right
+        rep = restack[0]
+        while restack:
+            top = restack.pop(0)   #将列表的第一个节点吐出来
+            if restack:
+                top.right = restack[0]#一个点的右面为下节点，一个点的左面为上节点
+                restack[0].left = top
+        return rep
+
+##递归版本
+##宏观的看，一轮一轮的看很麻烦
+# -*- coding:utf-8 -*-
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+class Solution:
+    def Convert(self, root):
+        if not root:                                                                        #root为空
+            return None
+        if not root.left and not root.right:                                                #root为一个数
+            return root
+         
+        # 将左子树构建成双链表，返回链表头                                                      #root有左子树
+        left = self.Convert(root.left)
+        p = left
+         
+        # 定位至左子树的最右的一个结点 否则，找到此节点的右子树的最左节点（若无左子树，则返回根节点）#root左子树的右子树
+        while left and p.right:
+            p = p.right
+         
+        # 如果左子树不为空，将当前root加到左子树链表
+        if left:
+            p.right = root
+            root.left = p
+         
+        # 将右子树构造成双链表，返回链表头                                                        #root有右子树
+        right = self.Convert(root.right)
+        # 如果右子树不为空，将该链表追加到root结点之后
+        if right:
+            right.left = root
+            root.right = right
+             
+        return left if left else root#root                                                     #左子树为空就返回root

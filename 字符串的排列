@@ -19,3 +19,69 @@ class Solution:
                 ret.append(ss[i]+j)  ##ret记录一组就像[bc,cb]
         #通过set进行去重，sorted进行重新排序
         return sorted(list(set(ret))) #ret再返回给j，就会变成abc,acbzi
+        
+###自己在python上试试       
+def Permutation(ss):
+        # write code here
+        if not ss:
+            return []
+        if len(ss) == 1:
+            return [ss]
+        ret = []
+        #遍历字符串，固定第一个元素，然后递归求解
+        for i in range(len(ss)):
+            print(ss[:i]+ss[i+1:])
+            for j in Permutation(ss[:i]+ss[i+1:]):
+                ret.append(ss[i]+j)
+                print(ret)
+        #通过set进行去重，sorted进行重新排序
+        a = sorted(list(set(ret)))
+        return a
+ss="abc"    
+Permutation(ss)
+print(Permutation(ss))
+
+
+bc
+c
+['bc']
+b
+['bc', 'cb']
+['abc']  #可忽略
+['abc', 'acb']
+ac
+c
+['ac']
+a
+['ac', 'ca']
+['abc', 'acb', 'bac']
+['abc', 'acb', 'bac', 'bca']
+ab
+b
+['ab']
+a
+['ab', 'ba']
+['abc', 'acb', 'bac', 'bca', 'cab']
+['abc', 'acb', 'bac', 'bca', 'cab', 'cba']
+bc
+c
+['bc']
+b
+['bc', 'cb']
+['abc']
+['abc', 'acb']
+ac
+c
+['ac']
+a
+['ac', 'ca']
+['abc', 'acb', 'bac']
+['abc', 'acb', 'bac', 'bca']
+ab
+b
+['ab']
+a
+['ab', 'ba']
+['abc', 'acb', 'bac', 'bca', 'cab']
+['abc', 'acb', 'bac', 'bca', 'cab', 'cba']
+['abc', 'acb', 'bac', 'bca', 'cab', 'cba']

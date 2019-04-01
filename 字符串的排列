@@ -1,0 +1,22 @@
+####输入一个字符串,按字典序打印出该字符串中字符的所有排列。
+####例如输入字符串abc,则打印出由字符a,b,c所能排列出来的所有字符串abc,acb,bac,bca,cab和cba。
+####解法：递归
+思路：先固定第一个元素，将后面的全排列，例如abc
+其中细节就是先固定第一个元素，再一直递归到最后一个元素c，出来一个圈把当时的i=0时的b+c,bc，继续i=1时的c+b,cb,此时的ret= bc,cb 退圈ret就会返回ss=abc时，
+i= 0 ss[0]=a,ss[i]+j)成为abc,acb
+# -*- coding:utf-8 -*-
+class Solution:
+    def Permutation(self, ss):
+        # write code here
+        if not ss:
+            return []
+        if len(ss) == 1:          #递归的终止条件，当递归到最后一个字符时就返回
+            return [ss]
+        ret = []                  #负责记录字符串的排列
+        #遍历字符串，固定第一个元素，然后递归求解
+        for i in range(len(ss)):
+            for j in self.Permutation(ss[:i]+ss[i+1:]):  ##ss[:i]+ss[i+1:]=ss[:1]+ss[1+1:]=ss[0]
+                ret.append(ss[i]+j)  ##ret记录一组就像[bc,cb]
+        #通过set进行去重，sorted进行重新排序
+        return sorted(list(set(ret))) #ret再返回给j，就会变成abc,acb
+        

@@ -1,0 +1,21 @@
+###输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。
+###例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323。
+思路：先将整数数组转为字符串数组，然后用比较器实现字符串比较大小。
+如果有字符串A和B， A + B < B + A，则A在前；反之B在前。最后将字符串数组连接去除返回值左侧的0。
+cmp -- 比较的函数，这个具有两个参数，参数的值都是从可迭代对象中取出，此函数必须遵守的规则为，大于则返回1，小于则返回-1，等于则返回0。
+cmp(x,y) 函数用于比较2个对象，如果 x < y 返回 -1, 如果 x == y 返回 0, 如果 x > y 返回 1。
+解法：
+# -*- coding:utf-8 -*-
+class Solution:
+    def PrintMinNumber(self, numbers):
+        # write code here
+        if not numbers:
+            return ''
+        number = map(str,numbers)
+        number.sort(cmp = lambda x,y:cmp(x+y,y+x))
+        return ''.join(number).lstrip('0')  
+###lstrip返回截掉字符串左边的空格或指定字符后生成的新字符串。
+str = "88888888this is string example....wow!!!8888888";
+print str.lstrip('8');
+输出结果：
+this is string example....wow!!!8888888
